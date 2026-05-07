@@ -37,6 +37,9 @@ def chat_loop(pdf_path: Path) -> None:
         if question.lower() in ("exit", "quit", "salir"):
             print("Hasta luego.")
             break
+        if len(question) > 2000:
+            print("Pregunta demasiado larga (máx. 2000 caracteres).\n")
+            continue
 
         docs = retriever.invoke(question)
         context = "\n\n".join(

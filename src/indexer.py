@@ -36,7 +36,8 @@ def index_pdf(pdf_path: Path) -> None:
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     vectorstore = FAISS.from_documents(docs, embeddings)
 
-    out_dir = INDEX_DIR / pdf_path.stem
+    safe_stem = Path(pdf_path.stem).name  # strip any residual path separators
+    out_dir = INDEX_DIR / safe_stem
     out_dir.mkdir(parents=True, exist_ok=True)
     vectorstore.save_local(str(out_dir))
 
