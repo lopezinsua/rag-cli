@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(Path(__file__).parent / ".env")
 
 
 def _validated_pdf(path_str: str) -> Path:
