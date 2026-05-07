@@ -34,6 +34,7 @@ def cmd_chat(args: argparse.Namespace) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
+        prog="rag",
         description="RAG CLI — Chatea con tus PDFs en la terminal",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
@@ -42,6 +43,7 @@ def main() -> None:
             "  python rag.py chat apuntes.pdf"
         ),
     )
+    parser.add_argument("--version", action="version", version="rag-cli 1.0.0")
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_index = sub.add_parser("index", help="Indexar un PDF")
