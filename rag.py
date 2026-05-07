@@ -7,20 +7,24 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def cmd_index(args: argparse.Namespace) -> None:
-    from src.indexer import index_pdf
-    pdf = Path(args.pdf)
+def _validated_pdf(path_str: str) -> Path:
+    pdf = Path(path_str)
+    if pdf.suffix.lower() != ".pdf":
+        sys.exit(f"Error: '{pdf.name}' no es un archivo PDF.")
     if not pdf.exists():
         sys.exit(f"Error: '{pdf}' no existe.")
-    index_pdf(pdf)
+    return pdf
+
+
+def cmd_index(args: argparse.Namespace) -> None:
+    from src.indexer import index_pdf
+    index_pdf(_validated_pdf(args.pdf))
 
 
 def cmd_chat(args: argparse.Namespace) -> None:
     from src.indexer import index_pdf
     from src.chain import chat_loop
-    pdf = Path(args.pdf)
-    if not pdf.exists():
-        sys.exit(f"Error: '{pdf}' no existe.")
+    pdf = _validated_pdf(args.pdf)
     index_path = Path("index") / pdf.stem
     if not index_path.exists():
         print(f"Índice no encontrado. Indexando '{pdf.name}'...")

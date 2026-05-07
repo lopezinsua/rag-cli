@@ -15,6 +15,8 @@ def load_retriever(pdf_stem: str, k: int = 4) -> VectorStoreRetriever:
             f"Ejecuta primero: python rag.py index <pdf>"
         )
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    # allow_dangerous_deserialization: index files are written locally by this tool;
+    # never load an index received from an untrusted source.
     vectorstore = FAISS.load_local(
         str(index_path), embeddings, allow_dangerous_deserialization=True
     )
